@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('newsletter-form').addEventListener('submit', handleFormSubmit);
+    document.getElementById('form').addEventListener('submit', handleFormSubmit);
 });
 
 function handleFormSubmit(event) {
@@ -20,8 +20,8 @@ function handleFormSubmit(event) {
     console.log(`Interests: ${interests.join(', ')}`);
 
     // Optionally, clear the form after submission
-    document.getElementById('newsletter-form').reset();
+    document.getElementById('form').reset();
 
-    // Provide feedback to the user (e.g., show a success message)
-    alert('Thank you for signing up for our newsletter!');
+    // Redirect to the success page
+    window.location.href = 'newsletterSuccess.html';
 }
