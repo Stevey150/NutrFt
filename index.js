@@ -43,7 +43,7 @@ app.post('/customer', async(req, res) => {
         'customer_firstName': firstName, 
         'customer_lastName': lastName, 
         'customer_email': email, 
-        'customer_preferences': preferences,
+        'customer_preference': preferences,
     }).select();
 
     if(error) {
