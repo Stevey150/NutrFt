@@ -89,8 +89,7 @@ button:hover {
 }
 
 .articlepic {
-    width: 500px;
-    height: 319px;
+    width: 50%;
     display: block; 
     margin: 0 auto; 
     margin-left: 20px;
