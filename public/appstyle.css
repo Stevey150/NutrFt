@@ -259,3 +259,38 @@ footer {
     width: 100%;
     position: relative;
 }
+
+/* Style for the success message section */
+#successMessage {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    text-align: center;
+    min-height: 80vh; /* Minimum height of the viewport */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.success-content {
+    width: 70%;
+    border: 1px solid #ffb366;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+}
+
+/* Style for the button */
+.button {
+    background-color: #ffb366;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #ff9933;
+}

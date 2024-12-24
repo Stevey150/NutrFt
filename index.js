@@ -1,60 +1,75 @@
 // Import express and supabase
 const express = require('express');
-const supabaseClient = require('@supabase/supabse-js');
-const bodyParser = require('body-parser')
-
+const path = require('path');
+const { createClient } = require('@supabase/supabase-js');
 const app = express();
 const port = 3000;
-app.use(bodyParser.json())
-app.use(express.static(__dirname + '/public'));
 
-const supabseURL = 'https://peeajhsltbxxsnpjznas.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlZWFqaHNsdGJ4eHNucGp6bmFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUwMTIzMzMsImV4cCI6MjA1MDU4ODMzM30.8LNUARKWJUFXqxDYAsoZVMoTzs6peX538L34eNi_P_Y';
-const supabse = supabaseClient.createClient(supabseURL, supabaseKey);
+// Supabase client setup
 
-app.get('/customers', async(req, res) => {
-    console.log('Attempting to get all customers.');
+// Our api url followed by api key 
+const supabase = createClient(
+  'https://peeajhsltbxxsnpjznas.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlZWFqaHNsdGJ4eHNucGp6bmFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUwMTIzMzMsImV4cCI6MjA1MDU4ODMzM30.8LNUARKWJUFXqxDYAsoZVMoTzs6peX538L34eNi_P_Y'
+  
+);
 
-    const {data, error} = await supabaseClient.from('customer').select();
+// Middleware to parse JSON requests
+app.use(express.json());
 
-    console.log('Data Retrieved:', data);
-    
+// Serve static files from the "public" folder
+app.use(express.static(path.join(__dirname, 'public')));
 
-    if(error) {
-        console.log('Error:', error);
-        res.send(error);
-    } else {
-        console.log('Successfully Retrieved Data');
-        res.send(data);
-    }
+// Home page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.post('/customer', async(req, res) => {
-    console.log('Attempting to add Customer.');
-
-    console.log('Request', req.body);
-
-    const firstName = request.body.firstName;
-    const lastName = req.body.lastName;
-    const email = req.body.email;
-    const preferences = req.body.preferences;
-
-    const {data, error} = await supabaseClient.from('customer').insert({
-        'customer_firstName': firstName, 
-        'customer_lastName': lastName, 
-        'customer_email': email, 
-        'customer_preference': preferences,
-    }).select();
-
-    if(error) {
-        console.log('Error:', error);
-        res.send(error);
-    } else {
-        console.log('Successfully Retrieved Data');
-        res.send(data);
-    }
+// Newsletter signup page
+app.get('/signup', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'newsletterSignup.html'));
 });
 
+// Newsletter success page
+app.get('/success', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'newsletterSuccess.html'));
+});
+
+// Exercise page
+app.get('/search', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'exercise.html'));
+});
+
+// Serve the about page
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'about.html'));
+});
+
+// Endpoint to create a newsletter entry
+app.post('/newsletter', async (req, res) => {
+  const { firstName, lastName, email, interests } = req.body;
+
+  // Insert data into the table
+  const { data, error } = await supabase
+    .from('newsletter_subscribers') 
+    .insert([
+      {
+        customer_firstName: firstName,
+        customer_lastName: lastName,
+        customer_email: email,
+        customer_preference: interests.join(', '), 
+      }
+    ]);
+
+  if (error) {
+    return res.status(400).json({ error: error.message });
+  }
+
+  // Redirect to the success page after successful form submission
+  res.redirect('/success');
+});
+
+// Start the server
 app.listen(port, () => {
-    console.log('App is Aliveee');
+  console.log(`Server is running at http://localhost:${port}`);
 });
