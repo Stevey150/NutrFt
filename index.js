@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
 const app = express();
-const port = 3000;
+const port = 3001;
 
 // Supabase client setup
 
