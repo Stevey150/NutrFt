@@ -6,12 +6,9 @@ const app = express();
 const port = 3001;
 
 // Supabase client setup
-
-// Our api url followed by api key 
 const supabase = createClient(
   'https://peeajhsltbxxsnpjznas.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlZWFqaHNsdGJ4eHNucGp6bmFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUwMTIzMzMsImV4cCI6MjA1MDU4ODMzM30.8LNUARKWJUFXqxDYAsoZVMoTzs6peX538L34eNi_P_Y'
-  
 );
 
 // Middleware to parse JSON requests
@@ -48,22 +45,29 @@ app.get('/about', (req, res) => {
 // Endpoint to create a newsletter entry
 app.post('/customer', async (req, res) => {
   const { firstName, lastName, email, interests } = req.body;
+  console.log('Received form data:', { firstName, lastName, email, interests });
+
+  // Ensure interests is an array to avoid join error
+  const interestsStr = Array.isArray(interests) ? interests.join(', ') : '';
 
   // Insert data into the table
   const { data, error } = await supabase
-    .from('customer') 
+    .from('customer')
     .insert([
       {
-        customer_firstName: firstName,
-        customer_lastName: lastName,
-        customer_email: email,
-        customer_preference: interests.join(', '), 
+        customer_firstName: firstName || '',
+        customer_lastName: lastName || '',
+        customer_email: email || '',
+        customer_preference: interestsStr,
       }
     ]);
 
   if (error) {
+    console.error('Error inserting data:', error.message);
     return res.status(400).json({ error: error.message });
   }
+
+  console.log('Data inserted successfully:', data);
 
   // Redirect to the success page after successful form submission
   res.redirect('/success');
