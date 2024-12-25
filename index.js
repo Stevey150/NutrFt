@@ -46,7 +46,7 @@ app.get('/about', (req, res) => {
 });
 
 // Endpoint to create a newsletter entry
-app.post('/newsletter', async (req, res) => {
+app.post('/customer', async (req, res) => {
   const { firstName, lastName, email, interests } = req.body;
 
   // Insert data into the table
