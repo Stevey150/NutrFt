@@ -1,18 +1,28 @@
 {
   "name": "nutrft",
   "version": "1.0.0",
-  "description": "to use supabase",
+  "description": "Node for final project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -e '*'"
+    "start": "node index.js"
   },
-  "author": "Luis Martinez",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevey150/nutrft.git"
+  },
+  "author": "Jaida Ries",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stevey150/nutrft/issues"
+  },
+  "homepage": "https://github.com/stevey150/nutrft#readme",
   "dependencies": {
-    "@supabase/supabase-js": "^2.47.10",
-    "body-parser": "^1.20.3",
+    "@supabase/supabase-js": "^2.47.3",
+    "chart.js": "^4.4.7",
     "express": "^4.21.2",
-    "nodemon": "^3.1.9"
-  }
+    "leaflet": "^1.9.4",
+    "nodemon": "^3.1.7"
+  },
+  "keywords": []
 }
