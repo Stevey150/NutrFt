@@ -51,7 +51,7 @@ app.post('/newsletter', async (req, res) => {
 
   // Insert data into the table
   const { data, error } = await supabase
-    .from('newsletter_subscribers') 
+    .from('customer') 
     .insert([
       {
         customer_firstName: firstName,
